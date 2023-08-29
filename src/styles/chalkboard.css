@@ -1,0 +1,98 @@
+@import url("https://fonts.googleapis.com/css2?family=Gaegu:wght@700&family=Gamja+Flower&family=Hi+Melody&family=Itim&family=Mali:wght@700&family=Margarine&family=Nanum+Pen+Script&family=Nerko+One&family=Pangolin&family=Sniglet&family=Sunshiney&display=swap");
+
+* {
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+  user-select: none;
+}
+
+body {
+  min-height: 100vh;
+  background: #252839;
+  font-size: 65px;
+  display: flex;
+}
+
+h1 {
+  color: #fff;
+  text-align: center;
+  line-height: 0.7;
+  font-size: 2em;
+  margin: 50px auto;
+  font-family: "Gaegu", sans-serif;
+  letter-spacing: -0.05em;
+}
+
+.menu {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+ul {
+  justify-content: center;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  font-family: "Gamja Flower", cursive;
+  margin-left: -40px;
+}
+ul li {
+  position: relative;
+  list-style: none;
+}
+ul li a {
+  font-size: 1em;
+  display: block;
+  text-decoration: none;
+  line-height: 1em;
+  color: transparent;
+  -webkit-text-stroke: 1px rgba(255, 255, 255, 0.6);
+  white-space: nowrap;
+  padding-left: 50px;
+}
+
+ul li a::before {
+  content: attr(data-text);
+  line-height: 1em;
+  position: absolute;
+  color: var(--clr);
+  width: 0;
+  overflow: hidden;
+  transition: 1s;
+  border-right: 5px solid transparent;
+  white-space: nowrap;
+}
+
+.star {
+  transition: 1.25s;
+  position: absolute;
+  width: 40px;
+  height: 100%;
+  left: 0;
+  background: url(menu-star.png);
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position-y: center;
+  pointer-events: none;
+  filter: invert(87%) sepia(33%) saturate(390%) hue-rotate(7deg) brightness(95%)
+    contrast(90%);
+}
+
+ul li a:hover .star {
+  left: calc(100% + 10px);
+  transform: rotate(360deg);
+}
+
+ul li a:hover .star {
+  left: calc(100% + 10px);
+  transform: rotate(360deg);
+  transition: 1s;
+}
+
+ul li a:hover::before {
+  width: 100%;
+  filter: drop-shadow(0 0 30px var(--clr));
+  border-right: 5px solid transparent;
+}
