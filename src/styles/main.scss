@@ -1,5 +1,10 @@
 @import url("https://fonts.googleapis.com/css2?family=Gaegu:wght@700&family=Gamja+Flower&family=Hi+Melody&family=Itim&family=Mali:wght@700&family=Margarine&family=Nanum+Pen+Script&family=Nerko+One&family=Pangolin&family=Sniglet&family=Sunshiney&display=swap");
 
+$screen-xs: 576px;
+$screen-sm: 768px;
+$screen-md: 992px;
+$screen-lg: 1200px;
+
 * {
   box-sizing: border-box;
   padding: 0;
@@ -111,14 +116,36 @@ button {
 // Intro Page
 
 .intro {
-  margin-top: 100px;
+  width: 100%;
+  transform: none !important;
+  height: 100%;
+  max-height: 100%;
+
+  > div {
+    width: 100%;
+    margin: 0;
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+    height: 100%;
+    max-height: 100%;
+    padding-bottom: 100px;
+    @media screen and (min-width: $screen-sm) {
+      padding-bottom: 150px;
+    }
+    @media screen and (min-width: $screen-md) {
+      padding-bottom: 250px;
+    }
+  }
   .intro-text {
     padding: 30px;
     border-radius: 50px;
     background-color: hsl(65, 52%, 88%);
     width: 800px;
+    max-width: 90%;
     font-size: 1.2rem;
     color: #79562f;
+    margin: 0;
     h1,
     h3 {
       margin: 20px 0;
@@ -133,22 +160,12 @@ button {
   }
 }
 
-.testmenu {
-  border: 1px solid blue;
-  width: 300px;
-  height: 100px;
-  top: 0;
-  transform: none !important;
-}
-
 .mailbox-content {
-  border: 1px solid blue;
-
+  border: 1px solid transparent;
   color: black;
   &-inner {
     width: 500px;
     height: 700px;
-    border: 1px solid pink;
     background-color: white;
     padding: 50px;
     font-size: 20px;
@@ -396,5 +413,91 @@ button {
   100% {
     transform: translateY(-60rem) scale(0.5, 0.7);
     opacity: 0;
+  }
+}
+
+// Chalkboard
+
+.chalkboard {
+  font-size: 3rem;
+  h3 {
+    color: #fff;
+    text-align: center;
+    line-height: 0.7;
+    margin: 50px auto;
+    font-family: "Gaegu", sans-serif;
+    letter-spacing: -0.05em;
+  }
+
+  .menu {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  ul {
+    justify-content: center;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    font-family: "Gamja Flower", cursive;
+    margin-left: -40px;
+  }
+  ul li {
+    position: relative;
+    list-style: none;
+  }
+  ul li a {
+    display: block;
+    text-decoration: none;
+    line-height: 1em;
+    color: transparent;
+    -webkit-text-stroke: 1px rgba(255, 255, 255, 0.6);
+    white-space: nowrap;
+    padding-left: 50px;
+  }
+
+  ul li a::before {
+    content: attr(data-text);
+    line-height: 1em;
+    position: absolute;
+    color: var(--clr);
+    width: 0;
+    overflow: hidden;
+    transition: 1s;
+    border-right: 5px solid transparent;
+    white-space: nowrap;
+  }
+
+  .star {
+    transition: 1.25s;
+    position: absolute;
+    width: 40px;
+    height: 100%;
+    left: 0;
+    background: url(menu-star.png);
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position-y: center;
+    pointer-events: none;
+    filter: invert(87%) sepia(33%) saturate(390%) hue-rotate(7deg)
+      brightness(95%) contrast(90%);
+  }
+
+  ul li a:hover .star {
+    left: calc(100% + 10px);
+    transform: rotate(360deg);
+  }
+
+  ul li a:hover .star {
+    left: calc(100% + 10px);
+    transform: rotate(360deg);
+    transition: 1s;
+  }
+
+  ul li a:hover::before {
+    width: 100%;
+    filter: drop-shadow(0 0 30px var(--clr));
+    border-right: 5px solid transparent;
   }
 }

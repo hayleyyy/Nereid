@@ -1,5 +1,11 @@
 // CameraProvider.jsx
-import React, { createContext, useCallback, useState, useContext } from "react";
+import React, {
+  createContext,
+  useCallback,
+  useEffect,
+  useState,
+  useContext,
+} from "react";
 import { Vector3 } from "three";
 
 const CameraContext = createContext();
@@ -8,6 +14,9 @@ export const useCameraContext = () => useContext(CameraContext);
 
 export const CameraProvider = ({ children, camera }) => {
   const defaultCameraPosition = new Vector3(0, 1, 12);
+  const setDefaultCameraPosition = useCallback((position) => {
+    defaultCameraPosition.set(...position.toArray());
+  }, []);
   const zeroPosition = new Vector3(0, 1, 0);
   const [controlsEnabled, setControlsEnabled] = useState(true);
   const [controlsTarget, setControlsTarget] = useState(zeroPosition);
@@ -17,7 +26,6 @@ export const CameraProvider = ({ children, camera }) => {
   const [cameraState, setCameraState] = useState(camera);
 
   // CAMERA CONTROLS
-
   // Move the camera to an Object, with slight offset
   const moveCamera = useCallback((objectPosition) => {
     // console.log("object position : " + objectPosition);
@@ -34,14 +42,6 @@ export const CameraProvider = ({ children, camera }) => {
       console.error("Invalid camera coordinates:", cameraCoords);
     }
   }, []);
-
-  // useEffect(() => {
-  //   console.log("focusedObjectName has changed:", focusedObjectName);
-  // }, [focusedObjectName]);
-
-  // useEffect(() => {
-  //   console.log("isFocusingonObject has changed:", isFocusingOnObject);
-  // }, [isFocusingOnObject]);
 
   const setOrbitTarget = useCallback(
     (objectPosition) => {
@@ -66,7 +66,7 @@ export const CameraProvider = ({ children, camera }) => {
     setFocusedObjectName(null);
     setCameraPosition(defaultCameraPosition); // reset camera position
     moveCamera(defaultCameraPosition); // explicitly move the camera to the default position
-    // console.log("resetting");
+    //console.log("resetting");
   }, [moveCamera]);
 
   // OBJECT FOCUS
@@ -93,9 +93,9 @@ export const CameraProvider = ({ children, camera }) => {
     (layerNumber) => {
       if (cameraState?.layers) {
         cameraState.layers.enable(layerNumber);
-        console.log("enable layer : " + layerNumber);
+        //console.log("enable layer : " + layerNumber);
       } else {
-        console.warn("cameraState or cameraState.layers is undefined");
+        // console.warn("cameraState or cameraState.layers is undefined");
       }
     },
     [cameraState]
@@ -105,9 +105,9 @@ export const CameraProvider = ({ children, camera }) => {
     (layerNumber) => {
       if (cameraState?.layers) {
         cameraState.layers.disable(layerNumber);
-        console.log("disable layer : " + layerNumber);
+        //  console.log("disable layer : " + layerNumber);
       } else {
-        console.warn("cameraState or cameraState.layers is undefined");
+        //  console.warn("cameraState or cameraState.layers is undefined");
       }
     },
     [cameraState]
@@ -133,6 +133,8 @@ export const CameraProvider = ({ children, camera }) => {
         moveCamera,
         camera: cameraState,
         setCamera: setCameraState,
+        defaultCameraPosition,
+        setDefaultCameraPosition,
       }}
     >
       {children}

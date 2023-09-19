@@ -5,6 +5,7 @@ import { useGLTF } from "@react-three/drei";
 import { useSceneContext } from "./SceneProvider";
 import { useSpring, a } from "@react-spring/three";
 import { Select } from "@react-three/postprocessing";
+import { useCameraContext } from "./CameraProvider";
 
 export default function PatioDoors() {
   const { registerObject, handleObjectClick } = useSceneContext();
@@ -12,6 +13,7 @@ export default function PatioDoors() {
   const leftDoorRef = useRef();
   const rightDoorRef = useRef();
   const [hovered, setHovered] = useState(false);
+  const { focusedObjectName, isFocusingOnObject } = useCameraContext();
 
   const [springProps, set] = useSpring(() => ({
     leftPosition: 0,
@@ -36,12 +38,19 @@ export default function PatioDoors() {
     }
   }, [registerObject]);
 
+  // TODO: this is goofy, find a better way to solve this later.
+  const handleDoorsClick = () => {
+    if (!isFocusingOnObject) {
+      handleObjectClick("TopFloor");
+    }
+  };
+
   return (
     <group
       scale={1}
       position={[-0.4, 2.5, 2.1]}
       rotation-y={-0.5 * Math.PI}
-      onPointerDown={() => handleObjectClick("TopFloor")}
+      onPointerDown={() => handleDoorsClick()}
     >
       <Select enabled={hovered}>
         <a.primitive

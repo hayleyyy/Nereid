@@ -45,7 +45,8 @@ export default function WateringCan() {
         console.log(initialPosition);
         console.log(newPosition.x, newPosition.y, newPosition.z);
         setInitialPosition([newPosition.x, newPosition.y, newPosition.z]); // Update initial position after a delay
-      }, 2000); // You'd have to determine the appropriate delay value
+      }, 2000); // Determine the appropriate delay value
+      // TODO: We can test this and figure it out later.. Still not doing what I want.
     }
   });
   return (

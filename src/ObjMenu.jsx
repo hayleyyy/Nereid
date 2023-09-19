@@ -25,19 +25,10 @@ export default function ChalkboardMenu() {
     }
   }, [registerObject, ref]);
 
-  // Let's make each link have an event listener so we can control what it does.
-  const handleIframeLoad = (event) => {
-    const iframeDocument = event.target.contentDocument;
-    if (iframeDocument) {
-      // Attach event listeners to the links inside the iframe
-      iframeDocument.querySelectorAll("a").forEach((link) => {
-        link.addEventListener("click", handleMenuLinkClick);
-      });
-    }
-  };
-
-  // And then we assign our own action, depending on the individual link.
   const handleMenuLinkClick = (event) => {
+    console.log("-----------HANDLE MENU CLICK IS CALLED--------------");
+    event.preventDefault();
+    event.stopPropagation();
     const action = event.target.getAttribute("data-action");
     switch (action) {
       case "about":
@@ -54,22 +45,18 @@ export default function ChalkboardMenu() {
     }
   };
 
-  useLayoutEffect(() => {
-    const chalkboardMenuContent = `
-      <link rel="stylesheet" href="./styles/chalkboard.css">
-      <div class="chalkboard">
-        <h1>Today's menu!</h1>
-        <div class="menu">
-        <ul>
-          <li style="--clr:#edb4d8"><a href="#" data-action="about" data-text="About me"><div class="star"></div>About me</a></li>
-          <li style="--clr:#80bfe8"><a href="#" data-action="projects" data-text="Projects"><div class="star"></div>Projects</a></li>
-          <li style="--clr:#98e3ac"><a href="#" data-action="contact" data-text="Get in touch"><div class="star"></div>Get in touch</a></li>
-        </ul>
-        </div>
-        </div>
-    `;
+  useEffect(() => {
+    const menuList = document.getElementById("menu-list");
 
-    setChalkboardMenuHtml(chalkboardMenuContent);
+    if (menuList) {
+      menuList.addEventListener("click", handleMenuLinkClick);
+    }
+
+    return () => {
+      if (menuList) {
+        menuList.removeEventListener("click", handleMenuLinkClick);
+      }
+    };
   }, []);
 
   const htmlComponent = useMemo(() => {
@@ -78,14 +65,47 @@ export default function ChalkboardMenu() {
         <Html
           occlude
           wrapperClass="content"
-          distanceFactor={0.75}
+          distanceFactor={1}
           transform
           rotation-x={-0.208}
           rotation-y={-Math.PI * 2} // weird z-index bug fix
           position-z={0.53}
           position-y={0.46}
         >
-          <iframe srcDoc={chalkboardMenuHtml} onLoad={handleIframeLoad} />
+          <div className="chalkboard">
+            <h3>Today's menu!</h3>
+            <div className="menu">
+              <ul id="menu-list">
+                <li>
+                  <a
+                    data-action="about"
+                    onClick={handleMenuLinkClick}
+                    data-text="About me"
+                  >
+                    <div className="star"></div>About me
+                  </a>
+                </li>
+                <li>
+                  <a
+                    data-action="projects"
+                    onClick={handleMenuLinkClick}
+                    data-text="Projects"
+                  >
+                    <div className="star"></div>Projects
+                  </a>
+                </li>
+                <li>
+                  <a
+                    data-action="contact"
+                    onClick={handleMenuLinkClick}
+                    data-text="Get in touch"
+                  >
+                    <div className="star"></div>Get in touch
+                  </a>
+                </li>
+              </ul>
+            </div>
+          </div>
         </Html>
       );
     }

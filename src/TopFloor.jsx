@@ -33,9 +33,9 @@ export default function TopFloor() {
           position={[0.3, 1, 0]}
         >
           <div className="about-me-inner-wrapper">
-            <div class="about-me-inner">
+            <div className="about-me-inner">
               <h1>Oh, we have company!</h1>
-              <div class="about-me-position">
+              <div className="about-me-position">
                 <p>
                   As you can see, I'm still busy unpacking and moving into my
                   comfy new space here! I'll continue to decorate this room and
@@ -57,9 +57,8 @@ export default function TopFloor() {
                 <p>
                   Please visit me again soon to get a closer look into my world!
                 </p>
-                <p>
-                  <h3>~ H</h3>
-                </p>
+                <p> </p>
+                <h3>~ H</h3>
               </div>
             </div>
           </div>

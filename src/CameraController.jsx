@@ -13,8 +13,65 @@ const CameraController = () => {
     controlsTarget,
     cameraPosition,
     isFocusingOnObject,
+    setDefaultCameraPosition,
+    defaultCameraPosition,
   } = useCameraContext();
-  const { camera } = useThree();
+
+  // CAMERA DEFAULTS
+  //TODO: Add distance multiplier for screen size so that default position can be adjusted
+  const { camera, size } = useThree();
+  useEffect(() => {
+    camera.aspect = size.width / size.height;
+    camera.updateProjectionMatrix();
+  }, [size.width, size.height, camera]);
+  const [viewportWidth, setViewportWidth] = useState(window.innerWidth);
+  useEffect(() => {
+    let newDefaultPosition;
+    if (viewportWidth < 576) {
+      // Extra Small Devices
+      newDefaultPosition = new Vector3(0, 1, 12);
+      camera.fov = 100;
+      // console.log("xs window");
+    } else if (viewportWidth >= 576 && viewportWidth < 768) {
+      // Small Devices
+      newDefaultPosition = new Vector3(0, 1, 12);
+      camera.fov = 90;
+      // console.log("sm window");
+    } else if (viewportWidth >= 768 && viewportWidth < 992) {
+      // Medium Devices
+      newDefaultPosition = new Vector3(0, 1, 12);
+      camera.fov = 80;
+      // console.log("med window");
+    } else if (viewportWidth >= 992 && viewportWidth < 1200) {
+      // Large Devices
+      newDefaultPosition = new Vector3(0, 1, 12);
+      camera.fov = 70;
+      // console.log("lg window");
+    } else {
+      // Extra Large Devices
+      newDefaultPosition = new Vector3(0, 1, 12);
+      camera.fov = 70;
+      // console.log("xl window");
+    }
+    setDefaultCameraPosition(newDefaultPosition);
+    if (!isFocusingOnObject) {
+      camera.position.set(...newDefaultPosition.toArray());
+      // console.log("not focused");
+    }
+    camera.updateProjectionMatrix();
+  }, [viewportWidth, camera]);
+
+  useEffect(() => {
+    const handleResize = () => {
+      setViewportWidth(window.innerWidth);
+    };
+
+    window.addEventListener("resize", handleResize);
+
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
 
   const springProps = useSpring({
     to: { springPos: new Vector3(...cameraPosition) },
@@ -38,7 +95,9 @@ const CameraController = () => {
     if (springProps.springPos && isMoving) {
       if (logFrameCount % 100 === 0) {
         // testing log but not on every freakin frame
-        console.log("useFrame called");
+        // console.log("useFrame called");
+        // console.log(springProps.springPos.get());
+        // console.log(camera.position);
       }
       logFrameCount++;
       camera.position.lerp(springProps.springPos.get(), 0.025);
@@ -48,7 +107,7 @@ const CameraController = () => {
       // Check if the camera has reached its destination
       if (camera.position.distanceTo(springProps.springPos.get()) < 0.1) {
         setIsMoving(false);
-        console.log("stopped moving");
+        // console.log("stopped moving");
       }
     }
   });

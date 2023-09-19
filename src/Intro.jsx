@@ -74,7 +74,7 @@ export default function Intro({ onFinish }) {
           </Float>
         </group>
       </Center>
-      <Html wrapperClass="intro" center>
+      <Html wrapperClass="intro">
         <div className="intro-text">
           <h1>Hello and welcome!</h1>
           <p>

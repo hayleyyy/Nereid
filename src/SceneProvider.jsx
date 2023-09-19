@@ -33,11 +33,13 @@ export const SceneProvider = ({ children }) => {
   const [currentLayer, setCurrentLayer] = useState("introLayer");
 
   const viewIsolatedLayer = () => {
+    // console.log("-------VIEWISOLATEDLAYER---------");
     enableLayer(isolatedLayer);
     disableLayer(mainLayer);
   };
 
   const viewMainLayer = () => {
+    //  console.log("-------VIEWMAINLAYER---------");
     enableLayer(mainLayer);
     disableLayer(isolatedLayer);
   };
@@ -61,8 +63,9 @@ export const SceneProvider = ({ children }) => {
 
   // Focus on object
   const focusObject = (objectName) => {
+    // console.log("-------FOCUSOBJECT---------");
     const object = getObject(objectName);
-    console.log(object);
+    //console.log(object);
 
     // move object to isolated layer
     object.traverse((child) => {
@@ -70,14 +73,15 @@ export const SceneProvider = ({ children }) => {
         child.layers.set(isolatedLayer);
       }
     });
-    console.log("Calling SETFOCUSONOBJECT" + objectName);
+    //  console.log("Calling SETFOCUSONOBJECT" + objectName);
     setFocusOnObject(true, objectName);
   };
 
   // Remove Object from focus
   const unfocusObject = () => {
+    // console.log("-------UNFOCUSOBJECT---------");
     const object = getObject(focusedObjectName);
-    console.log("removing obj from focus " + focusedObjectName);
+    //  console.log("removing obj from focus " + focusedObjectName);
 
     // move object back to main layer
     object.traverse((child) => {
@@ -85,15 +89,16 @@ export const SceneProvider = ({ children }) => {
         child.layers.set(mainLayer);
       }
     });
-    console.log("Calling SETFOCUSONOBJECT to empty");
+    // console.log("Calling SETFOCUSONOBJECT to empty");
     setFocusOnObject(false, null);
   };
 
   // When an object is clicked, set it as the new orbit target
   const handleObjectClick = (objectName) => {
+    // console.log("-------HANDLEOBJECTCLICK--------- " + objectName);
     // check to see if we're already focusing on an object
     // if we are, reset focus and move object back to main layer.
-    console.log("is focusing on object?" + isFocusingOnObject);
+    //  console.log("is focusing on object?" + isFocusingOnObject);
     if (isFocusingOnObject) {
       unfocusObject();
     }
@@ -111,9 +116,10 @@ export const SceneProvider = ({ children }) => {
 
   // Go to the default location in the scene to view the entire scene
   const resetView = () => {
+    // console.log("-------RESETVIEW---------");
     // get currently focused object if applicable
-    console.log("reset view");
-    console.log("is focusing on object?" + isFocusingOnObject);
+    //  console.log("reset view");
+    //  console.log("is focusing on object?" + isFocusingOnObject);
 
     if (isFocusingOnObject) {
       unfocusObject();
