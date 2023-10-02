@@ -5,7 +5,7 @@ import { useSceneContext } from "./SceneProvider";
 import { useCameraContext } from "./CameraProvider";
 import { useEffect } from "react";
 
-export default Navigation = () => {
+export default function Navigation() {
   const { resetView } = useSceneContext();
   const { isFocusingOnObject } = useCameraContext();
   //   console.log("is focus on obj");
@@ -29,4 +29,4 @@ export default Navigation = () => {
       )}
     </>
   );
-};
+}
